@@ -7,7 +7,7 @@ export default function Header({totalAddToCartAmount}:AddToCartProps) {
       <div className='w-[60%] flex justify-between items-center'>
         <Link to='/' className='flex justify-between items-center w-[190px] cursor-pointer'>
           <img className='w-[45px]' src="/shoply-icon.png" alt="shoply-icon" />
-          <p className='text-[30px] font-poppins text-white'>Shoply</p>
+          <p className='text-[30px] text-white'>Shoply</p>
         </Link>
         <div className="w-full mx-13 flex items-center">
           <input className='bg-white w-full h-10 rounded-[3px] px-4 min-w-[500px]' type="text" placeholder='Search' />

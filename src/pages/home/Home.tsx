@@ -1,7 +1,7 @@
 import axios from "axios";
 import { type ProductsList } from "../../interfaces/products";
 import Header from "../../components/Header";
-import Products from "../../components/Products";
+import Products from "./Products";
 import Footer from "../../components/Footer";
 import { useEffect, useState } from "react";
 import type { AddToCartProps } from "../../interfaces/addToCartAmount";

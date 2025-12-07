@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { type Product, type ProductsList } from "../interfaces/products";
+import { type Product, type ProductsList } from "../../interfaces/products";
 
 interface ProductProps {
   product: Product;

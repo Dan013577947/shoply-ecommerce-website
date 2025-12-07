@@ -1,5 +1,5 @@
 
-import { type ProductsList } from "../interfaces/products";
+import { type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
 interface ProductsProps {
   products: ProductsList | null;
