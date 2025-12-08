@@ -8,7 +8,7 @@ interface ProductsProps {
 }
 
 export default function Products({ products, totalAddToCartAmount, settotalAddToCartAmount }: ProductsProps) {
-  console.log(products)
+
   return (
     <div className="pt-35 flex">
       <div className='w-[20%]'></div>

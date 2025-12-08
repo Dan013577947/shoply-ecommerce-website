@@ -1,7 +1,7 @@
 import { type Product, type ProductsList } from "../../interfaces/products";
-import {  useState } from "react";
+import {  useState, useEffect } from "react";
 import axios from "axios";
-import { type CartList } from "../../interfaces/carts";
+import { type Cart } from "../../interfaces/carts";
 interface ProductProps {
   product: Product;
   products: ProductsList | null;
@@ -11,7 +11,14 @@ interface ProductProps {
 
 export default function Product({ product, totalAddToCartAmount, settotalAddToCartAmount }: ProductProps) {
   const [addAmount, setAddAmount] = useState<number>(1)
-  const [carts, setCarts] = useState<CartList | null>(null)
+  const [carts, setCarts] = useState<Cart[] | []>([])
+
+  useEffect(()=>{
+    const savedCarts = localStorage.getItem('carts')
+    if(savedCarts){
+      setCarts(JSON.parse(savedCarts))
+    }
+  },[])
 
   const handleAddToCart = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -22,19 +29,22 @@ export default function Product({ product, totalAddToCartAmount, settotalAddToCa
           { id: product.id, quantity: addAmount }
         ]
       })
-      setCarts(response.data)
+      setCarts(prev=>{
+        const updatedCarts = [...prev, response.data]
+        localStorage.setItem('carts', JSON.stringify(updatedCarts))
+        return updatedCarts
+      })
     }
     addToCart()
     settotalAddToCartAmount(totalAddToCartAmount + addAmount);
     setAddAmount(1)
   }
-
-
+  // console.log('product',carts)
+  
   const handleAmountAddToCart = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAddAmount(Number(event.target.value))
   }
 
-  console.log(carts)
   return (
     <>
       <div key={product.id} className="bg-white w-47 h-70 shadow-[0px_0px_2px_rgba(0,0,0,0.4)] p-2 flex flex-col justify-between">
