@@ -20,7 +20,7 @@ export interface Reviews {
   reviewerName: string;
 }
 
-export interface Product {
+export interface ProductType {
   availabilityStatus: string;
   brand: string;
   category: string;
@@ -45,7 +45,7 @@ export interface Product {
 }
 
 export interface ProductsList {
-  products:Product[];
+  products:ProductType[];
   total:number;
   skip:number;
   limit:number;

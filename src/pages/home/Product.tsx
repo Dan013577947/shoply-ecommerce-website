@@ -1,34 +1,14 @@
-import { type Product, type ProductsList } from "../../interfaces/products";
+import { type ProductType } from "../../interfaces/products";
 import { useState } from "react";
-import axios from "axios";
-import { type Cart } from "../../interfaces/carts";
+
 interface ProductProps {
-  product: Product;
-  products: ProductsList | null;
-  setTotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
+  product: ProductType;
+  handleAddToCart:(product:ProductType, addAmount:number) => void;
 }
 
-export default function Product({ product, setTotalAddToCartAmount }: ProductProps) {
+export default function Product({ product, handleAddToCart }: ProductProps) {
   const [addAmount, setAddAmount] = useState<number>(1)
-  const [carts, setCarts] = useState<Cart[]>([])
-
-  const handleAddToCart = (event: React.MouseEvent) => {
-    event.preventDefault()
-    const addToCart = async () => {
-      const response = await axios.post('https://dummyjson.com/carts/add', {
-        userId: 1,
-        products: [
-          { id: product.id, quantity: addAmount }
-        ]
-      })
-      setCarts(response.data)
-    }
-    addToCart()
-    setTotalAddToCartAmount(prev=> prev + addAmount);
-    setAddAmount(1)
-  }
-  console.log(carts)
-
+  
   const handleAmountAddToCart = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAddAmount(Number(event.target.value))
   }
@@ -81,7 +61,10 @@ export default function Product({ product, setTotalAddToCartAmount }: ProductPro
         </div>
         <button
           className="bg-orange-500 text-white cursor-pointer font-500 -m-2 py-1 hover:bg-red-500 active:bg-red-500 active:opacity-40"
-          onClick={handleAddToCart}
+          onClick={()=>{
+            handleAddToCart(product, addAmount)
+            setAddAmount(1)
+          }}
         >Add to Cart</button>
 
       </div>
