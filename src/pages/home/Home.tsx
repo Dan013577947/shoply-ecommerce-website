@@ -29,8 +29,7 @@ useEffect(() => {
       />
       <Products
         products={productsList}
-        totalAddToCartAmount={totalAddToCartAmount}
-        settotalAddToCartAmount={setTotalAddToCartAmount}
+        setTotalAddToCartAmount={setTotalAddToCartAmount}
       />
       <Footer />
     </div>

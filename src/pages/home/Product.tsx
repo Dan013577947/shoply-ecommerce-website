@@ -1,24 +1,16 @@
 import { type Product, type ProductsList } from "../../interfaces/products";
-import {  useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { type Cart } from "../../interfaces/carts";
 interface ProductProps {
   product: Product;
   products: ProductsList | null;
-  totalAddToCartAmount: number;
-  settotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
+  setTotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Product({ product, totalAddToCartAmount, settotalAddToCartAmount }: ProductProps) {
+export default function Product({ product, setTotalAddToCartAmount }: ProductProps) {
   const [addAmount, setAddAmount] = useState<number>(1)
-  const [carts, setCarts] = useState<Cart[] | []>([])
-
-  useEffect(()=>{
-    const savedCarts = localStorage.getItem('carts')
-    if(savedCarts){
-      setCarts(JSON.parse(savedCarts))
-    }
-  },[])
+  const [carts, setCarts] = useState<Cart[]>([])
 
   const handleAddToCart = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -29,18 +21,14 @@ export default function Product({ product, totalAddToCartAmount, settotalAddToCa
           { id: product.id, quantity: addAmount }
         ]
       })
-      setCarts(prev=>{
-        const updatedCarts = [...prev, response.data]
-        localStorage.setItem('carts', JSON.stringify(updatedCarts))
-        return updatedCarts
-      })
+      setCarts(response.data)
     }
     addToCart()
-    settotalAddToCartAmount(totalAddToCartAmount + addAmount);
+    setTotalAddToCartAmount(prev=> prev + addAmount);
     setAddAmount(1)
   }
-  // console.log('product',carts)
-  
+  console.log(carts)
+
   const handleAmountAddToCart = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAddAmount(Number(event.target.value))
   }

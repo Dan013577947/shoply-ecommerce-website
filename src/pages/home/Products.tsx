@@ -3,11 +3,10 @@ import { type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
 interface ProductsProps {
   products: ProductsList | null;
-  totalAddToCartAmount: number;
-  settotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
+  setTotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Products({ products, totalAddToCartAmount, settotalAddToCartAmount }: ProductsProps) {
+export default function Products({ products, setTotalAddToCartAmount }: ProductsProps) {
 
   return (
     <div className="pt-35 flex">
@@ -20,8 +19,7 @@ export default function Products({ products, totalAddToCartAmount, settotalAddTo
                 key={product.id}
                 product={product}
                 products={products}
-                totalAddToCartAmount={totalAddToCartAmount}
-                settotalAddToCartAmount={settotalAddToCartAmount}
+                setTotalAddToCartAmount={setTotalAddToCartAmount}
               />
             );
           })}
