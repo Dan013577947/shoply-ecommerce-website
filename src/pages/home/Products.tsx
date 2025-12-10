@@ -1,19 +1,18 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { type Cart } from "../../interfaces/carts";
+import React from "react";
 import { type ProductType, type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
+import { type CartType } from "../../interfaces/carts";
 
 interface ProductsProps {
+  carts: CartType[];
+  setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
   setTotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Products({ products, setTotalAddToCartAmount }: ProductsProps) {
-  const [carts, setCarts] = useState<Cart[]>(() => {
-    const savedItem = localStorage.getItem('carts')
-    return savedItem ? JSON.parse(savedItem) : []
-  })
+export default function Products({ carts, setCarts, products, setTotalAddToCartAmount }: ProductsProps) {
+
 
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
@@ -27,7 +26,7 @@ export default function Products({ products, setTotalAddToCartAmount }: Products
 
         const existing = prev.find(item => item.products[0].id === response.data.products[0].id)
         if (existing) {
-          const updated =  prev.map(item => item.products[0].id === response.data.products[0].id
+          const updated = prev.map(item => item.products[0].id === response.data.products[0].id
             ? {
               ...item,
               discountedTotal: item.discountedTotal + response.data.discountedTotal,
@@ -50,14 +49,13 @@ export default function Products({ products, setTotalAddToCartAmount }: Products
           localStorage.setItem('carts', JSON.stringify(updated))
           return updated
         }
-
       })
     }
     addToCart()
     setTotalAddToCartAmount(prev => prev + addAmount);
   }
-  localStorage.removeItem('carts')
-  console.log(carts)
+  // localStorage.removeItem('carts')
+  // console.log(carts)
   return (
     <div className="pt-35 flex">
       <div className='w-[20%]'></div>

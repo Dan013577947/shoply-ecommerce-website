@@ -10,7 +10,7 @@ export interface CartProduct {
   total:number;
 }
 
-export interface Cart {
+export interface CartType {
   discountedTotal: number;
   id: number;
   products: CartProduct[];
@@ -21,7 +21,7 @@ export interface Cart {
 }
 
 export interface CartList {
-  carts: Cart[];
+  carts: CartType[];
   total: number;
   skip: number;
   limit: number;
