@@ -3,7 +3,7 @@ import { type ProductsList } from "../../interfaces/products";
 import Header from "../../components/Header";
 import Products from "./Products";
 import Footer from "../../components/Footer";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 
 export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, carts, setCarts }: AddToCartProps) {
@@ -21,6 +21,7 @@ export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, ca
     }
     fetchProducts()
   }, [])
+
 
   return (
     <div>
