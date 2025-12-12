@@ -13,7 +13,6 @@ interface ProductsProps {
 
 export default function Products({ setCarts, products, setTotalAddToCartAmount }: ProductsProps) {
 
-
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
       const response = await axios.post('https://dummyjson.com/carts/add', {

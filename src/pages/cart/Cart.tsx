@@ -69,7 +69,7 @@ export default function Cart({ carts, totalAddToCartAmount }: AddToCartProps) {
                 </div>
               </div>
               <div>
-                <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[17px] shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
+                <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
               </div>
 
             </div>
