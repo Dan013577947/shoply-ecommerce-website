@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
 import Home from "./pages/home/Home";
 import Cart from "./pages/cart/Cart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type CartType } from "./interfaces/carts";
 
 function App() {
@@ -9,15 +9,12 @@ function App() {
     const savedItem = localStorage.getItem('carts')
     return savedItem ? JSON.parse(savedItem) : []
   })
-  let totalQuantityInsideCart: number = 0;
 
-  if (carts) {
-    carts.map(cart => {
-      totalQuantityInsideCart += cart.totalQuantity
-    })
-  }
+  const [totalAddToCartAmount, setTotalAddToCartAmount] = useState<number>(carts.reduce((sum,item)=> sum + item.totalQuantity, 0) || 0)
 
-  const [totalAddToCartAmount, setTotalAddToCartAmount] = useState<number>(totalQuantityInsideCart)
+  useEffect(() => {
+    setTotalAddToCartAmount(() => carts.reduce((sum, item) => sum + item.products[0].quantity, 0))
+  }, [carts])
 
   return (
     <Routes>

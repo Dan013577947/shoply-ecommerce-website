@@ -39,7 +39,6 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, setTotalShi
   }, [deliveryOption])
 
   
-
   return (
     <div key={cart.products[0].id} className="bg-white mb-4 w-200 h-70 p-4 border border-gray-300 rounded-[5px] shadow-[0_0_2px_rgba(0,0,0,0.1)]">
       <div className="text-[18px] font-bold text-red-700">Delivery date: {deliveryOption.date}</div>

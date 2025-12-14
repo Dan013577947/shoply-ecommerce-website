@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 
 
-export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCartProps) {
+export default function Cart({ carts, setCarts,totalAddToCartAmount }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
 
@@ -16,13 +16,14 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
       const existing = prev.find(item => item.products[0].id === deliveryOption.id)
       if (existing) {
         const updated = prev.filter(item => item.products[0].id !== deliveryOption.id)
+
         localStorage.setItem('carts', JSON.stringify(updated))
         return updated
       }
       else return prev
     })
   }
-  // console.log(carts)
+
 
   return (
     <div>

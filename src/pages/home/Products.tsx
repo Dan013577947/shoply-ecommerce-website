@@ -54,6 +54,7 @@ export default function Products({ setCarts, products, setTotalAddToCartAmount }
     addToCart()
     setTotalAddToCartAmount(prev => prev + addAmount);
   }
+
   // localStorage.removeItem('carts')
   // console.log(carts)
   return (
