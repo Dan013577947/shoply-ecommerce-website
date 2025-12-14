@@ -63,7 +63,7 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
                 })
                 :
                 <div className="w-200">
-                  <div>Your Cart is Empty</div>
+                  <div>Your cart is empty</div>
                   <div>
                     <Link to='/'>
                       <button className="bg-yellow-300 cursor-pointer w-30  text-[15px] py-2 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.3)] mt-2">View Products</button>

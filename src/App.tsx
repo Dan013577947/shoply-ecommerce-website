@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Cart from "./pages/cart/Cart";
 import { useEffect, useState } from "react";
