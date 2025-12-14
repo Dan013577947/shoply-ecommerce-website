@@ -7,10 +7,23 @@ import { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 
 
-export default function Cart({ carts, totalAddToCartAmount }: AddToCartProps) {
+export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
-  console.log(carts)
+
+  const handleDeleteCart = (deliveryOption: DeliveryOption) => {
+    setCarts(prev => {
+      const existing = prev.find(item => item.products[0].id === deliveryOption.id)
+      if (existing) {
+        const updated = prev.filter(item => item.products[0].id !== deliveryOption.id)
+        localStorage.setItem('carts', JSON.stringify(updated))
+        return updated
+      }
+      else return prev
+    })
+  }
+  // console.log(carts)
+
   return (
     <div>
       <div className="bg-gradient-to-l from-orange-500 to-red-500 flex h-30 items-center fixed w-full">
@@ -43,7 +56,7 @@ export default function Cart({ carts, totalAddToCartAmount }: AddToCartProps) {
             <div>
               {carts.map(cart => {
                 return (
-                  <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} />
+                  <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} />
                 );
               })}
             </div>
