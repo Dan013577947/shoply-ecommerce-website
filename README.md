@@ -1,5 +1,5 @@
 # Shoply Ecommerce Website (Personal Project — In Progress)(2025)
-Shoply is a React + TypeScript e-commerce + TailwindCSS website that lets users browse products, add items to a cart, and manage their shopping experience in real-time. It features:
+Shoply is a React + TypeScript e-commerce + TailwindCSS website that lets users browse products, add items to a cart, and manage their shopping experience in real-time.
 
 
 ### Access the Website:                
