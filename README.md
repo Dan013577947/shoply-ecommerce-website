@@ -14,7 +14,7 @@ https://dan013577947.github.io/shoply-ecommerce-website/
 
 ## Technologies & Skills
 - Frontend Framework: ReactJS
-- Language: Typescript, JavaScript
+- Language: Typescript
 - Styling & Structure: HTML5 | TailwindCSS
 - Routing and State Management: React Router, useState, useEffect, useLocation
 - API Integration: REST API (GET & POST) using Axios
