@@ -5,7 +5,7 @@ import { cartOverallTotal } from "../../utils/cartOverallTotal";
 import { fixedDecimalValue, fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
 import { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
-
+import ShoplyIcon from "../../assets/shoply-icon.png"
 
 export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
@@ -31,7 +31,7 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
         <div className="w-[60%]">
           <div className="flex justify-between items-center">
             <Link to='/' className='flex justify-between items-center w-[145px] cursor-pointer'>
-              <img className='w-[45px]' src="/shoply-icon.png" alt="shoply-icon" />
+              <img className='w-[45px]' src={ShoplyIcon} alt="shoply-icon" />
               <p className='text-[30px] text-white'>Shoply</p>
             </Link>
             <div className="text-[20px] font-bold text-white">
