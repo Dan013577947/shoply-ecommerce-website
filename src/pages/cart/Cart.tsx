@@ -7,7 +7,7 @@ import { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 
 
-export default function Cart({ carts, setCarts,totalAddToCartAmount }: AddToCartProps) {
+export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
 
@@ -23,7 +23,6 @@ export default function Cart({ carts, setCarts,totalAddToCartAmount }: AddToCart
       else return prev
     })
   }
-
 
   return (
     <div>
@@ -53,15 +52,28 @@ export default function Cart({ carts, setCarts,totalAddToCartAmount }: AddToCart
           <div>
             <p className="text-[23px] font-bold pt-[40px] pb-3">Review your Order</p>
           </div>
-          <div className="flex">
+          <div className="flex justify-between">
             <div>
-              {carts.map(cart => {
-                return (
-                  <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} />
-                );
-              })}
+
+              {carts.length > 0
+                ? carts.map(cart => {
+                  return (
+                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} />
+                  );
+                })
+                :
+                <div className="w-200">
+                  <div>Your Cart is Empty</div>
+                  <div>
+                    <Link to='/'>
+                      <button className="bg-yellow-300 cursor-pointer w-30  text-[15px] py-2 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.3)] mt-2">View Products</button>
+                    </Link>
+
+                  </div>
+                </div>
+              }
             </div>
-            <div className="bg-white h-80 w-full ml-4 p-4 flex flex-col justify-between">
+            <div className="bg-white h-80 w-85 ml-4 p-4 flex flex-col justify-between">
               <div>
                 <p className="font-bold text-[18px]">Order Summary</p>
               </div>
