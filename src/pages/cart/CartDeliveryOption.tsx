@@ -14,6 +14,7 @@ interface DeliveryOptionCartProp {
 export default function CartDeliveryOption({ cart, handleDeleteCart, handleUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
 
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: "Monday, December 15", shippingPrice: "0.00" })
+  
 
   const handleDeliveryOption = (event: React.ChangeEvent<HTMLInputElement>) => {
     const date = JSON.parse(event.target.value).date

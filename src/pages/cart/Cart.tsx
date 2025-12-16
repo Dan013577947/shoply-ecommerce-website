@@ -12,11 +12,11 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
 
   const handleDeleteCart = (deliveryOption: DeliveryOption) => {
+
     setCarts(prev => {
       const existing = prev.find(item => item.products[0].id === deliveryOption.id)
       if (existing) {
         const updated = prev.filter(item => item.products[0].id !== deliveryOption.id)
-
         localStorage.setItem('carts', JSON.stringify(updated))
         return updated
       }
@@ -35,17 +35,19 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
             products: item.products.map((product, index) => index === 0
               ? { ...product, quantity: item.products[0].quantity + 1 }
               : product
-            )
+            ),
+            total: item.total + item.products[0].price
           }
           : item
         )
+        localStorage.setItem('carts', JSON.stringify(updated))
         return updated
       }
       else return prev
     })
   }
 
-  console.log(carts)
+
 
   return (
     <div>
