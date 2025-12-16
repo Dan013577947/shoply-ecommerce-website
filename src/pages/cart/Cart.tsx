@@ -3,7 +3,7 @@ import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 import CartDeliveryOption from "./CartDeliveryOption";
 import { cartOverallTotal } from "../../utils/cartOverallTotal";
 import { fixedDecimalValue, fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
-import { useState } from "react";
+import React, { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 import ShoplyIcon from "../../assets/shoply-icon.png"
 
@@ -11,7 +11,7 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
 
-   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
+  const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
   const handleDeleteCart = (deliveryOption: DeliveryOption) => {
 
     setCarts(prev => {
@@ -25,13 +25,13 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
     })
   }
 
-  
-  const handleUpdateCart = (deliveOption: DeliveryOption, updateInput:number) => {
+
+  const handleClickUpdateCart = (deliveryOption: DeliveryOption, updateInput: number) => {
 
     setCarts(prev => {
-      const existing = prev.find(item => item.products[0].id === deliveOption.id)
+      const existing = prev.find(item => item.products[0].id === deliveryOption.id)
       if (existing) {
-        const updated = prev.map(item => item.products[0].id === deliveOption.id
+        const updated = prev.map(item => item.products[0].id === deliveryOption.id
           ? {
             ...item,
             totalQuantity: updateInput,
@@ -48,9 +48,36 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
       }
       else return prev
     })
-    
+
   }
 
+  
+  const handleEnterUpdateCart = (event: React.KeyboardEvent<HTMLInputElement>,deliveryOption: DeliveryOption, updateInput: number, setUpdateStatus:React.Dispatch<React.SetStateAction<boolean>>) => {
+  
+    if (event.key === 'Enter') {
+      setUpdateStatus(prev=>!prev)
+      setCarts(prev => {
+        const existing = prev.find(item => item.products[0].id === deliveryOption.id)
+        if (existing) {
+          const updated = prev.map(item => item.products[0].id === deliveryOption.id
+            ? {
+              ...item,
+              totalQuantity: updateInput,
+              products: item.products.map((product, index) => index === 0
+                ? { ...product, quantity: updateInput }
+                : product
+              ),
+              total: updateInput * item.products[0].price
+            }
+            : item
+          )
+          localStorage.setItem('carts', JSON.stringify(updated))
+          return updated
+        }
+        else return prev
+      })
+    }
+  }
 
   return (
     <div>
@@ -87,7 +114,7 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
               {carts.length > 0
                 ? carts.map(cart => {
                   return (
-                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleUpdateCart={handleUpdateCart}  />
+                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleClickUpdateCart={handleClickUpdateCart} handleEnterUpdateCart={handleEnterUpdateCart} />
                   );
                 })
                 :

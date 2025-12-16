@@ -8,10 +8,11 @@ interface DeliveryOptionCartProp {
   cart: CartType;
   setTotalShipping: React.Dispatch<React.SetStateAction<DeliveryOption[]>>;
   handleDeleteCart: (deliveryOption: DeliveryOption) => void;
-  handleUpdateCart: (deliveryOption: DeliveryOption, updateInput:number) => void;
+  handleClickUpdateCart: (deliveryOption: DeliveryOption, updateInput: number) => void;
+  handleEnterUpdateCart: (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput:number, setUpdateStatus:React.Dispatch<React.SetStateAction<boolean>>) => void;
 }
 
-export default function CartDeliveryOption({ cart, handleDeleteCart, handleUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
+export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
 
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: "Monday, December 15", shippingPrice: "0.00" })
 
@@ -47,7 +48,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleUpdat
     setUpdateStatus(prev => !prev)
   }
 
-  const handleUpdateInput = (event:React.ChangeEvent<HTMLInputElement>)=>{
+  const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUpdateInput(Number(event.target.value))
   }
 
@@ -65,14 +66,17 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleUpdat
               <div className="mr-1">Quantity:</div>
               {updateStatus
                 ? <div>
-                  <input type="text" className="border border-gray-300 px-1 w-7" onChange={handleUpdateInput} />
+                  <input type="text" className="border border-gray-300 px-1 w-7" onChange={handleUpdateInput} placeholder={String(cart.products[0].quantity)} onKeyDown={(event) => {
+                    handleEnterUpdateCart(event, deliveryOption, updateInput, setUpdateStatus)
+                    
+                  }} />
                 </div>
                 : <div>{cart.products[0].quantity}</div>
               }
             </div>
             {updateStatus
               ? <button className="text-blue-500 cursor-pointer" onClick={() => {
-                handleUpdateCart(deliveryOption, updateInput)
+                handleClickUpdateCart(deliveryOption, updateInput)
                 handleUpdateStatus()
               }}>Apply</button>
               : <button className="text-blue-500 cursor-pointer" onClick={() => {
