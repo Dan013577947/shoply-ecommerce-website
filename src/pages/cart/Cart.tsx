@@ -28,34 +28,7 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
 
   const handleClickUpdateCart = (deliveryOption: DeliveryOption, updateInput: number) => {
 
-    setCarts(prev => {
-      const existing = prev.find(item => item.products[0].id === deliveryOption.id)
-      if (existing) {
-        const updated = prev.map(item => item.products[0].id === deliveryOption.id
-          ? {
-            ...item,
-            totalQuantity: updateInput,
-            products: item.products.map((product, index) => index === 0
-              ? { ...product, quantity: updateInput }
-              : product
-            ),
-            total: updateInput * item.products[0].price
-          }
-          : item
-        )
-        localStorage.setItem('carts', JSON.stringify(updated))
-        return updated
-      }
-      else return prev
-    })
-
-  }
-
-  
-  const handleEnterUpdateCart = (event: React.KeyboardEvent<HTMLInputElement>,deliveryOption: DeliveryOption, updateInput: number, setUpdateStatus:React.Dispatch<React.SetStateAction<boolean>>) => {
-  
-    if (event.key === 'Enter') {
-      setUpdateStatus(prev=>!prev)
+    if (updateInput) {
       setCarts(prev => {
         const existing = prev.find(item => item.products[0].id === deliveryOption.id)
         if (existing) {
@@ -77,6 +50,45 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
         else return prev
       })
     }
+    else {
+      alert('Please input a number')
+    }
+
+  }
+
+  const handleEnterUpdateCart = (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput: number, setUpdateStatus: React.Dispatch<React.SetStateAction<boolean>>) => {
+
+    if (event.key === 'Enter') {
+      if (updateInput) {
+        setUpdateStatus(prev => !prev)
+        setCarts(prev => {
+          const existing = prev.find(item => item.products[0].id === deliveryOption.id)
+          if (existing) {
+            const updated = prev.map(item => item.products[0].id === deliveryOption.id
+              ? {
+                ...item,
+                totalQuantity: updateInput,
+                products: item.products.map((product, index) => index === 0
+                  ? { ...product, quantity: updateInput }
+                  : product
+                ),
+                total: updateInput * item.products[0].price
+              }
+              : item
+            )
+            localStorage.setItem('carts', JSON.stringify(updated))
+            return updated
+          }
+          else return prev
+        })
+      }
+      else {
+        setUpdateStatus(prev => !prev)
+        alert('Please input a number')
+      }
+    }
+
+
   }
 
   return (
