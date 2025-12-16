@@ -26,6 +26,7 @@ export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, ca
 
   return (
     <div>
+      <title>Shoply</title>
       <Header
         carts={carts}
         setCarts={setCarts}

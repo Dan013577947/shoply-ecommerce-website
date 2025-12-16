@@ -26,6 +26,7 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
 
   return (
     <div>
+      <title>Cart</title>
       <div className="bg-gradient-to-l from-orange-500 to-red-500 flex h-30 items-center fixed w-full">
         <div className="w-[20%]"></div>
         <div className="w-[60%]">
