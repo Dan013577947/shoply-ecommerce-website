@@ -9,10 +9,9 @@ interface ProductsProps {
   carts: CartType[];
   setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
-  setTotalAddToCartAmount: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function Products({ setCarts, products, setTotalAddToCartAmount }: ProductsProps) {
+export default function Products({ setCarts, products }: ProductsProps) {
 
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
@@ -52,7 +51,6 @@ export default function Products({ setCarts, products, setTotalAddToCartAmount }
       })
     }
     addToCart()
-    setTotalAddToCartAmount(prev => prev + addAmount);
   }
 
   // localStorage.removeItem('carts')

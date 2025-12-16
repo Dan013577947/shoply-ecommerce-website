@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Cart from "./pages/cart/Cart";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { type CartType } from "./interfaces/carts";
 import ScrollToTop from "./ScrollToTop";
 
@@ -11,13 +11,6 @@ function App() {
     return savedItem ? JSON.parse(savedItem) : []
   })
 
-  const [totalAddToCartAmount, setTotalAddToCartAmount] = useState<number>(carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0)
-
-  useEffect(() => {
-    setTotalAddToCartAmount(() => carts.reduce((sum, item) => sum + item.products[0].quantity, 0))
-  }, [carts])
-
-
   return (
     <>
       <ScrollToTop />
@@ -26,15 +19,11 @@ function App() {
           <Home
             carts={carts}
             setCarts={setCarts}
-            totalAddToCartAmount={totalAddToCartAmount}
-            setTotalAddToCartAmount={setTotalAddToCartAmount}
           />} path="/" />
         <Route element={
           <Cart
             carts={carts}
             setCarts={setCarts}
-            totalAddToCartAmount={totalAddToCartAmount}
-            setTotalAddToCartAmount={setTotalAddToCartAmount}
           />} path="/cart" />
       </Routes>
     </>

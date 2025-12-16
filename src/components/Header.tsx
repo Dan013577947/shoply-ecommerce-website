@@ -4,7 +4,9 @@ import ShoplyIcon from "../assets/shoply-icon.png"
 import SearchIcon from "../assets/search-icon.png"
 import CartIcon from "../assets/cart-icon.png"
 
-export default function Header({totalAddToCartAmount}:AddToCartProps) {
+export default function Header({carts}:AddToCartProps) {
+   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
+   
   return (
     <div className='fixed w-full h-30 bg-gradient-to-l from-orange-500 to-red-500 flex'>
       <div className='w-[20%]'></div>

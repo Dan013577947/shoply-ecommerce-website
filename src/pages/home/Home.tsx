@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 
 
-export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, carts, setCarts }: AddToCartProps) {
+export default function Home({ carts, setCarts }: AddToCartProps) {
   const [productsList, setProductsList] = useState<ProductsList | null>(null);
 
 
@@ -31,14 +31,11 @@ export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, ca
       <Header
         carts={carts}
         setCarts={setCarts}
-        totalAddToCartAmount={totalAddToCartAmount}
-        setTotalAddToCartAmount={setTotalAddToCartAmount}
       />
       <Products
         carts={carts}
         setCarts={setCarts}
         products={productsList}
-        setTotalAddToCartAmount={setTotalAddToCartAmount}
       />
       <Footer />
     </div>
