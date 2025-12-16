@@ -17,6 +17,7 @@ function App() {
     setTotalAddToCartAmount(() => carts.reduce((sum, item) => sum + item.products[0].quantity, 0))
   }, [carts])
 
+  
   return (
     <>
       <ScrollToTop />

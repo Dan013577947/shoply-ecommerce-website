@@ -7,10 +7,11 @@ import { type DeliveryOption } from "../../interfaces/deliveryOption";
 interface DeliveryOptionCartProp {
   cart: CartType;
   setTotalShipping: React.Dispatch<React.SetStateAction<DeliveryOption[]>>;
-  handleDeleteCart:(deliveryOption:DeliveryOption)=>void
+  handleDeleteCart: (deliveryOption: DeliveryOption) => void;
+  handleUpdateCart: (deliveOption: DeliveryOption) => void
 }
 
-export default function CartDeliveryOption({ cart, handleDeleteCart, setTotalShipping }: DeliveryOptionCartProp) {
+export default function CartDeliveryOption({ cart, handleDeleteCart, handleUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
 
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: "Monday, December 15", shippingPrice: "0.00" })
 
@@ -38,7 +39,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, setTotalShi
     })
   }, [deliveryOption])
 
-  
+
   return (
     <div key={cart.products[0].id} className="bg-white mb-4 w-200 h-70 p-4 border border-gray-300 rounded-[5px] shadow-[0_0_2px_rgba(0,0,0,0.1)]">
       <div className="text-[18px] font-bold text-red-700">Delivery date: {deliveryOption.date}</div>
@@ -49,7 +50,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, setTotalShi
           <div className="text-red-600 font-[500] py-1">&#36;{fixedDecimalValue(totalValue)}</div>
           <div className="flex justify-between w-[80%]">
             <div>Quantity: {cart.products[0].quantity}</div>
-            <button className="text-blue-500 cursor-pointer">Update</button>
+            <button className="text-blue-500 cursor-pointer" onClick={()=>handleUpdateCart(deliveryOption)}>Update</button>
             <button className="text-blue-500 cursor-pointer" onClick={() => handleDeleteCart(deliveryOption)}>Delete</button>
           </div>
         </div>
