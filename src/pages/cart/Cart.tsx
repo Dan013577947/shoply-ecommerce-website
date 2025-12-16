@@ -24,19 +24,21 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
     })
   }
 
-  const handleUpdateCart = (deliveOption: DeliveryOption) => {
+  
+  const handleUpdateCart = (deliveOption: DeliveryOption, updateInput:number) => {
+
     setCarts(prev => {
       const existing = prev.find(item => item.products[0].id === deliveOption.id)
       if (existing) {
         const updated = prev.map(item => item.products[0].id === deliveOption.id
           ? {
             ...item,
-            totalQuantity: item.totalQuantity + 1,
+            totalQuantity: updateInput,
             products: item.products.map((product, index) => index === 0
-              ? { ...product, quantity: item.products[0].quantity + 1 }
+              ? { ...product, quantity: updateInput }
               : product
             ),
-            total: item.total + item.products[0].price
+            total: updateInput * item.products[0].price
           }
           : item
         )
@@ -45,8 +47,8 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
       }
       else return prev
     })
+    
   }
-
 
 
   return (
@@ -84,7 +86,7 @@ export default function Cart({ carts, setCarts, totalAddToCartAmount }: AddToCar
               {carts.length > 0
                 ? carts.map(cart => {
                   return (
-                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleUpdateCart={handleUpdateCart} />
+                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleUpdateCart={handleUpdateCart}  />
                   );
                 })
                 :

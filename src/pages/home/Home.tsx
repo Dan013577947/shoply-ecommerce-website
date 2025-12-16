@@ -24,6 +24,7 @@ export default function Home({ totalAddToCartAmount, setTotalAddToCartAmount, ca
     fetchProducts()
   }, [])
 
+
   return (
     <div>
       <title>Shoply</title>
