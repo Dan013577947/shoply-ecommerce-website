@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { type ProductType, type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
 import { type CartType } from "../../interfaces/carts";
