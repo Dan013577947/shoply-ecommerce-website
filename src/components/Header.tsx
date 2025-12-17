@@ -1,11 +1,15 @@
-import { type AddToCartProps } from "../interfaces/addToCartAmount";
 import { Link } from "react-router";
 import ShoplyIcon from "../assets/shoply-icon.png"
 import SearchIcon from "../assets/search-icon.png"
 import CartIcon from "../assets/cart-icon.png"
+import type { CartType } from "../interfaces/carts";
 
-
-export default function Header({ carts,handleSearchResult }: AddToCartProps) {
+interface HeaderProp {
+  carts:CartType[];
+  setCarts:React.Dispatch<React.SetStateAction<CartType[]>>;
+  handleSearchResult: (event:React.ChangeEvent<HTMLInputElement>)=>void;
+}
+export default function Header({ carts, handleSearchResult }: HeaderProp) {
   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
 
   return (

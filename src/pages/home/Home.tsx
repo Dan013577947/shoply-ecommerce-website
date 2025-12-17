@@ -6,7 +6,6 @@ import Footer from "../../components/Footer";
 import React, { useState, useEffect } from "react";
 import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 
-
 export default function Home({ carts, setCarts }: AddToCartProps) {
   const [productsList, setProductsList] = useState<ProductsList | null>(null);
 
@@ -24,7 +23,7 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
   }, [])
 
   const [searchText, setSearchText] = useState<string>('')
-  const handleSearchResult = (event:React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchResult = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
   }
 
