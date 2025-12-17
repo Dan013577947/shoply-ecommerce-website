@@ -4,9 +4,10 @@ import ShoplyIcon from "../assets/shoply-icon.png"
 import SearchIcon from "../assets/search-icon.png"
 import CartIcon from "../assets/cart-icon.png"
 
-export default function Header({carts}:AddToCartProps) {
-   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
-   
+
+export default function Header({ carts,handleSearchResult }: AddToCartProps) {
+  const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
+
   return (
     <div className='fixed w-full h-30 bg-gradient-to-l from-orange-500 to-red-500 flex'>
       <div className='w-[20%]'></div>
@@ -16,7 +17,7 @@ export default function Header({carts}:AddToCartProps) {
           <p className='text-[30px] text-white'>Shoply</p>
         </Link>
         <div className="w-full mx-13 flex items-center">
-          <input className='bg-white w-full h-10 rounded-[3px] px-4 min-w-[500px]' type="text" placeholder='Search' />
+          <input className='bg-white w-full h-10 rounded-[3px] px-4 min-w-[500px]' type="text" placeholder='Search' onChange={handleSearchResult} />
           <button className="bg-orange-500 h-9 w-15 -ml-[62px] rounded-[3px] flex justify-center items-center flex-shrink-0 cursor-pointer">
             <img className='w-[25px]' src={SearchIcon} alt="search-icon" />
           </button>

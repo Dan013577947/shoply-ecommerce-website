@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { type ProductType, type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
 import { type CartType } from "../../interfaces/carts";
@@ -9,9 +9,10 @@ interface ProductsProps {
   carts: CartType[];
   setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
+  searchText: string;
 }
 
-export default function Products({ setCarts, products }: ProductsProps) {
+export default function Products({ setCarts, products, searchText }: ProductsProps) {
 
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
@@ -52,23 +53,34 @@ export default function Products({ setCarts, products }: ProductsProps) {
     }
     addToCart()
   }
+  const searchedProducts: ProductType[] | undefined = products?.products.filter(product => product.title.startsWith(searchText))
 
-  // localStorage.removeItem('carts')
-  // console.log(carts)
   return (
     <div className="pt-35 flex">
       <div className='w-[20%]'></div>
       <div className='w-[60%]'>
         <div className="grid grid-cols-[100px_100px_100px_100px_100px_100px] gap-x-25 gap-y-3">
-          {products?.products.map((product) => {
-            return (
-              <Product
-                key={product.id}
-                product={product}
-                handleAddToCart={handleAddToCart}
-              />
-            );
-          })}
+          {
+            !searchText
+              ? products?.products.map((product) => {
+                return (
+                  <Product
+                    key={product.id}
+                    product={product}
+                    handleAddToCart={handleAddToCart}
+                  />
+                )
+              })
+              : searchedProducts?.map((product) => {
+                return (
+                  <Product
+                    key={product.id}
+                    product={product}
+                    handleAddToCart={handleAddToCart}
+                  />
+                )
+              })
+          }
         </div>
       </div>
       <div className='w-[20%]'></div>

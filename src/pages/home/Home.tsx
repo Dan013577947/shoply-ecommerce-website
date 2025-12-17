@@ -3,13 +3,12 @@ import { type ProductsList } from "../../interfaces/products";
 import Header from "../../components/Header";
 import Products from "./Products";
 import Footer from "../../components/Footer";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 
 
 export default function Home({ carts, setCarts }: AddToCartProps) {
   const [productsList, setProductsList] = useState<ProductsList | null>(null);
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,6 +23,10 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
     fetchProducts()
   }, [])
 
+  const [searchText, setSearchText] = useState<string>('')
+  const handleSearchResult = (event:React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(event.target.value)
+  }
 
   return (
     <div>
@@ -31,11 +34,13 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
       <Header
         carts={carts}
         setCarts={setCarts}
+        handleSearchResult={handleSearchResult}
       />
       <Products
         carts={carts}
         setCarts={setCarts}
         products={productsList}
+        searchText={searchText}
       />
       <Footer />
     </div>
