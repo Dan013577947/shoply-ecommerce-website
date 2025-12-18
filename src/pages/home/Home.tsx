@@ -1,12 +1,16 @@
 import axios from "axios";
-import { type ProductsList } from "../../interfaces/products";
+import { type ProductsList, type ProductType } from "../../interfaces/products";
 import Header from "../../components/Header";
 import Products from "./Products";
 import Footer from "../../components/Footer";
 import React, { useState, useEffect } from "react";
-import type { AddToCartProps } from "../../interfaces/addToCartAmount";
+import type { CartType } from "../../interfaces/carts";
 
-export default function Home({ carts, setCarts }: AddToCartProps) {
+interface HomeProp {
+  carts: CartType[];
+  setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
+}
+export default function Home({ carts, setCarts }: HomeProp) {
   const [productsList, setProductsList] = useState<ProductsList | null>(null);
 
   useEffect(() => {
@@ -27,6 +31,19 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
     setSearchText(event.target.value)
   }
 
+  const searchTextTitleCase = searchText.split('').join('').split(' ').map(word => word.split('').map((letter, index) => index === 0 ? letter.toUpperCase() : letter.toLocaleLowerCase()).join('')).join(' ')
+
+  const [searchedProducts, setSearchedProducts] = useState<ProductType[] | undefined>(undefined)
+
+  const handleSearchButton = () => {
+    setSearchedProducts(productsList?.products.filter(product => product.title.includes(searchTextTitleCase)))
+  }
+
+  const onKeyDownSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      setSearchedProducts(productsList?.products.filter(product => product.title.includes(searchTextTitleCase)))
+    }
+  }
 
   return (
     <div>
@@ -35,13 +52,15 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
         carts={carts}
         setCarts={setCarts}
         handleSearchResult={handleSearchResult}
-
+        handleSearchButton={handleSearchButton}
+        onKeyDownSearch={onKeyDownSearch}
       />
       <Products
         carts={carts}
         setCarts={setCarts}
         products={productsList}
-        searchText={searchText}
+        searchTextTitleCase={searchTextTitleCase}
+        searchedProducts={searchedProducts}
       />
       <Footer />
     </div>

@@ -9,10 +9,11 @@ interface ProductsProps {
   carts: CartType[];
   setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
-  searchText: string;
+  searchTextTitleCase: string;
+  searchedProducts: ProductType[] | undefined;
 }
 
-export default function Products({ setCarts, products, searchText }: ProductsProps) {
+export default function Products({ setCarts, products, searchedProducts }: ProductsProps) {
 
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
@@ -54,18 +55,14 @@ export default function Products({ setCarts, products, searchText }: ProductsPro
     addToCart()
   }
 
-  const searchTextTitleCase = searchText.split('').join('').split(' ').map(word=> word.split('').map((letter,index)=>index === 0 ? letter.toUpperCase() : letter.toLocaleLowerCase()).join('')).join(' ')
-
-  const searchedProducts: ProductType[] | undefined = products?.products.filter(product => product.title.startsWith(searchTextTitleCase))
-
   return (
     <div className="pt-35 flex">
       <div className='w-[20%]'></div>
       <div className='w-[60%]'>
         <div className="grid grid-cols-[100px_100px_100px_100px_100px_100px] gap-x-25 gap-y-3">
           {
-            !searchText
-              ? products?.products.map((product) => {
+            searchedProducts
+              ? searchedProducts?.map((product) => {
                 return (
                   <Product
                     key={product.id}
@@ -74,7 +71,7 @@ export default function Products({ setCarts, products, searchText }: ProductsPro
                   />
                 )
               })
-              : searchedProducts?.map((product) => {
+              : products?.products.map((product) => {
                 return (
                   <Product
                     key={product.id}
