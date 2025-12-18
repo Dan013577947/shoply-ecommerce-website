@@ -9,11 +9,10 @@ interface ProductsProps {
   carts: CartType[];
   setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
-  searchTextTitleCase: string;
   searchedProducts: ProductType[] | undefined;
 }
 
-export default function Products({ setCarts, products, searchedProducts }: ProductsProps) {
+function Products({ setCarts, products, searchedProducts }: ProductsProps) {
 
   const handleAddToCart = (product: ProductType, addAmount: number) => {
     const addToCart = async () => {
@@ -87,3 +86,6 @@ export default function Products({ setCarts, products, searchedProducts }: Produ
     </div>
   );
 }
+
+
+export default React.memo(Products)

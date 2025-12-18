@@ -31,17 +31,15 @@ export default function Home({ carts, setCarts }: HomeProp) {
     setSearchText(event.target.value)
   }
 
-  const searchTextTitleCase = searchText.split('').join('').split(' ').map(word => word.split('').map((letter, index) => index === 0 ? letter.toUpperCase() : letter.toLocaleLowerCase()).join('')).join(' ')
-
   const [searchedProducts, setSearchedProducts] = useState<ProductType[] | undefined>(undefined)
 
   const handleSearchButton = () => {
-    setSearchedProducts(productsList?.products.filter(product => product.title.includes(searchTextTitleCase)))
+    setSearchedProducts(productsList?.products.filter(product => product.title.toLowerCase().includes(searchText.trim().toLowerCase())))
   }
 
   const onKeyDownSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setSearchedProducts(productsList?.products.filter(product => product.title.includes(searchTextTitleCase)))
+      setSearchedProducts(productsList?.products.filter(product => product.title.toLowerCase().includes(searchText.trim().toLowerCase())))
     }
   }
 
@@ -59,7 +57,6 @@ export default function Home({ carts, setCarts }: HomeProp) {
         carts={carts}
         setCarts={setCarts}
         products={productsList}
-        searchTextTitleCase={searchTextTitleCase}
         searchedProducts={searchedProducts}
       />
       <Footer />
