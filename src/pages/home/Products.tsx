@@ -53,7 +53,10 @@ export default function Products({ setCarts, products, searchText }: ProductsPro
     }
     addToCart()
   }
-  const searchedProducts: ProductType[] | undefined = products?.products.filter(product => product.title.startsWith(searchText))
+
+  const searchTextTitleCase = searchText.split('').join('').split(' ').map(word=> word.split('').map((letter,index)=>index === 0 ? letter.toUpperCase() : letter.toLocaleLowerCase()).join('')).join(' ')
+
+  const searchedProducts: ProductType[] | undefined = products?.products.filter(product => product.title.startsWith(searchTextTitleCase))
 
   return (
     <div className="pt-35 flex">

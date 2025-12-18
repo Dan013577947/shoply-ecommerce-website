@@ -27,6 +27,7 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
     setSearchText(event.target.value)
   }
 
+
   return (
     <div>
       <title>Shoply</title>
@@ -34,6 +35,7 @@ export default function Home({ carts, setCarts }: AddToCartProps) {
         carts={carts}
         setCarts={setCarts}
         handleSearchResult={handleSearchResult}
+
       />
       <Products
         carts={carts}
