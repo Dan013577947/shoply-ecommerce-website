@@ -96,9 +96,8 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
   const date2DaysAfter = dayjs().add(2, 'day').format('dddd, MMMM DD')
   const date8DaysAfter = dayjs().add(8, 'day').format('dddd, MMMM DD')
 
-
-
-
+  const [deliveryOptionList, setDeliveryOptionList] = useState<DeliveryOption[]>([])
+  console.log(deliveryOptionList)
   return (
     <div>
       <title>Cart</title>
@@ -135,9 +134,10 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
                 ? carts.map(cart => {
                   return (
                     <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleClickUpdateCart={handleClickUpdateCart} handleEnterUpdateCart={handleEnterUpdateCart}
-                    dateNow={dateNow}
-                    date2DaysAfter={date2DaysAfter}
-                    date8DaysAfter={date8DaysAfter} />
+                      dateNow={dateNow}
+                      date2DaysAfter={date2DaysAfter}
+                      date8DaysAfter={date8DaysAfter}
+                      setDeliveryOptionList={setDeliveryOptionList} />
                   );
                 })
                 :

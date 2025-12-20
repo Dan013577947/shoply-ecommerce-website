@@ -9,23 +9,45 @@ interface DeliveryOptionCartProp {
   setTotalShipping: React.Dispatch<React.SetStateAction<DeliveryOption[]>>;
   handleDeleteCart: (deliveryOption: DeliveryOption) => void;
   handleClickUpdateCart: (deliveryOption: DeliveryOption, updateInput: number) => void;
-  handleEnterUpdateCart: (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput:number, setUpdateStatus:React.Dispatch<React.SetStateAction<boolean>>) => void;
-  dateNow:string;
-  date2DaysAfter:string;
-  date8DaysAfter:string;
+  handleEnterUpdateCart: (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput: number, setUpdateStatus: React.Dispatch<React.SetStateAction<boolean>>) => void;
+  dateNow: string;
+  date2DaysAfter: string;
+  date8DaysAfter: string;
+  setDeliveryOptionList: React.Dispatch<React.SetStateAction<DeliveryOption[]>>
 }
 
-export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping, dateNow, date2DaysAfter, date8DaysAfter }: DeliveryOptionCartProp) {
+export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping, dateNow, date2DaysAfter, date8DaysAfter, setDeliveryOptionList }: DeliveryOptionCartProp) {
 
   const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: date8DaysAfter, shippingPrice: "0.00" })
+
+  useEffect(() => {
+    setDeliveryOptionList(prev => {
+      const existing = prev.find(item => item.id === deliveryOption.id)
+      if (!existing)
+        return [...prev, deliveryOption]
+      else return prev
+    })
+  }, [])
 
 
   const handleDeliveryOption = (event: React.ChangeEvent<HTMLInputElement>) => {
     const date = JSON.parse(event.target.value).date
     const shippingPrice = JSON.parse(event.target.value).shippingPrice
     const id = JSON.parse(event.target.value).id
-    setDeliveryOption({ id: id, date: date, shippingPrice: shippingPrice })
+    const newDeliveryOption = { id: id, date: date, shippingPrice: shippingPrice }
+    setDeliveryOption(newDeliveryOption)
+    setDeliveryOptionList(prev => {
+      const existing = prev.find(item => item.id === newDeliveryOption.id)
+      if (existing) {
+        return prev.map(item => item.id === newDeliveryOption.id
+          ? { ...item, date: newDeliveryOption.date }
+          : item
+        )
+      }
+      else return [...prev, newDeliveryOption]
+    })
   }
+
   const totalValue = cart.total
   useEffect(() => {
     setTotalShipping(prev => {
@@ -71,7 +93,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
                 ? <div>
                   <input type="text" className="border border-gray-300 px-1 w-7" onChange={handleUpdateInput} placeholder={String(cart.products[0].quantity)} onKeyDown={(event) => {
                     handleEnterUpdateCart(event, deliveryOption, updateInput, setUpdateStatus)
-                    
+
                   }} />
                 </div>
                 : <div>{cart.products[0].quantity}</div>
