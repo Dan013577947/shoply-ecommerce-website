@@ -1,10 +1,14 @@
+
+export interface Order {
+  id:number;
+  title: string;
+  deliveryDate: string | undefined;
+  quantity: number;
+}
+
 export interface OrderType {
-  id: number;
   orderDate: string;
-  orders: {
-    title: string;
-    deliveryDate: string;
-    quantity: number;
-  }
+  orders:Order[];
   total: number;
 }
+

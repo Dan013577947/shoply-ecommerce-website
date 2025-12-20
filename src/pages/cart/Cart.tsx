@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 import ShoplyIcon from "../../assets/shoply-icon.png"
 import dayjs from "dayjs";
+import type { OrderType } from "../../interfaces/orders";
 
 export default function Cart({ carts, setCarts }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
@@ -97,7 +98,29 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
   const date8DaysAfter = dayjs().add(8, 'day').format('dddd, MMMM DD')
 
   const [deliveryOptionList, setDeliveryOptionList] = useState<DeliveryOption[]>([])
-  console.log(deliveryOptionList)
+
+  const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
+
+  const [orders, setOrders] = useState<OrderType[]>([])
+
+  const handlePlaceYourOrder = () => {
+    setOrders(prev => [...prev,
+    {
+      orderDate: dateNow,
+      orders: carts.map(cart => {
+        return {
+          id: cart.products[0].id,
+          title: cart.products[0].title,
+          deliveryDate: deliveryOptionList.find(item => item.id === cart.products[0].id)?.date,
+          quantity: cart.products[0].quantity
+        }
+      }),
+      total: Number(orderTotalAmount)
+    }
+    ])
+  }
+  console.log(orders)
+
   return (
     <div>
       <title>Cart</title>
@@ -177,12 +200,12 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
               <div>
                 <div className="flex justify-between mb-4 text-[19px] font-bold text-red-700">
                   <p>Order total:</p>
-                  <p>&#36;{fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))}</p>
+                  <p>&#36;{orderTotalAmount}</p>
                 </div>
               </div>
               <div>
                 <Link to='/cart'>
-                  <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
+                  <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={handlePlaceYourOrder}>Place your order</button>
                 </Link>
 
               </div>
