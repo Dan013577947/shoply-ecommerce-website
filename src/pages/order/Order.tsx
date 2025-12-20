@@ -1,10 +1,11 @@
-import type { CartType } from "../../interfaces/carts";
+
+import type { OrderType } from "../../interfaces/orders";
 
 interface OrderProp {
-  carts:CartType[]
+  orders:OrderType[]
 }
-export default function Order({carts}:OrderProp){
-  console.log(carts)
+export default function Order({orders}:OrderProp){
+  console.log(orders)
   return(
     <div>
       Order

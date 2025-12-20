@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import type { AddToCartProps } from "../../interfaces/addToCartAmount";
 import CartDeliveryOption from "./CartDeliveryOption";
 import { cartOverallTotal } from "../../utils/cartOverallTotal";
 import { fixedDecimalValue, fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
@@ -7,9 +6,16 @@ import React, { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 import ShoplyIcon from "../../assets/shoply-icon.png"
 import dayjs from "dayjs";
+import type { CartType } from "../../interfaces/carts";
 import type { OrderType } from "../../interfaces/orders";
 
-export default function Cart({ carts, setCarts }: AddToCartProps) {
+interface CartProp {
+  carts: CartType[];
+  setCarts: React.Dispatch<React.SetStateAction<CartType[]>>
+  setOrders: React.Dispatch<React.SetStateAction<OrderType[]>>
+}
+
+export default function Cart({ carts, setCarts, setOrders }: CartProp) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
 
@@ -101,25 +107,31 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
 
   const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
 
-  const [orders, setOrders] = useState<OrderType[]>([])
 
   const handlePlaceYourOrder = () => {
-    setOrders(prev => [...prev,
-    {
-      orderDate: dateNow,
-      orders: carts.map(cart => {
-        return {
-          id: cart.products[0].id,
-          title: cart.products[0].title,
-          deliveryDate: deliveryOptionList.find(item => item.id === cart.products[0].id)?.date,
-          quantity: cart.products[0].quantity
-        }
-      }),
-      total: Number(orderTotalAmount)
-    }
-    ])
+    setOrders(prev => {
+
+      const updated = [...prev,
+      {
+        orderDate: dateNow,
+        orders: carts.map(cart => {
+          return {
+            id: cart.products[0].id,
+            title: cart.products[0].title,
+            deliveryDate: deliveryOptionList.find(item => item.id === cart.products[0].id)?.date,
+            quantity: cart.products[0].quantity
+          }
+        }),
+        total: Number(orderTotalAmount)
+      }]
+
+      localStorage.setItem('orders', JSON.stringify(updated))
+      return updated
+    })
+
+    setCarts([])
+    localStorage.setItem('carts', JSON.stringify([]))
   }
-  console.log(orders)
 
   return (
     <div>
@@ -204,9 +216,14 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
                 </div>
               </div>
               <div>
-                <Link to='/cart'>
-                  <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={handlePlaceYourOrder}>Place your order</button>
-                </Link>
+                {carts.length > 0
+                  ? <Link to='/order'>
+                    <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={handlePlaceYourOrder}>Place your order</button>
+                  </Link>
+                  : <button className="bg-yellow-200 w-full text-[14px] py-3 rounded-[10px] shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
+
+                }
+
 
               </div>
 

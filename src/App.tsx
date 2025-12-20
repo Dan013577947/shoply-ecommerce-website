@@ -5,6 +5,7 @@ import { useState } from "react";
 import { type CartType } from "./interfaces/carts";
 import ScrollToTop from "./ScrollToTop";
 import Order from "./pages/order/Order";
+import type { OrderType } from "./interfaces/orders";
 
 function App() {
   const [carts, setCarts] = useState<CartType[]>(() => {
@@ -12,6 +13,12 @@ function App() {
     return savedItem ? JSON.parse(savedItem) : []
   })
 
+  const [orders, setOrders] = useState<OrderType[]>(() => {
+    const savedItem = localStorage.getItem('orders')
+    return savedItem ? JSON.parse(savedItem) : []
+  })
+
+  console.log('Orders: ',orders, 'Carts',carts)
   return (
     <>
       <ScrollToTop />
@@ -25,10 +32,11 @@ function App() {
           <Cart
             carts={carts}
             setCarts={setCarts}
+            setOrders={setOrders}
           />} path="/cart" />
         <Route element={
           <Order
-            carts={carts}
+            orders={orders}
           />}
           path="/order" />
       </Routes>
