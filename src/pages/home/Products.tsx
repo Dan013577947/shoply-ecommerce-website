@@ -88,4 +88,4 @@ function Products({ setCarts, products, searchedProducts }: ProductsProps) {
 }
 
 
-export default React.memo(Products)
+export default Products
