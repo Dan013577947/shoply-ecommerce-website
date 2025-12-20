@@ -6,12 +6,15 @@ import { fixedDecimalValue, fixedDecimalValueOfTwoAddedValues } from "../../util
 import React, { useState } from "react";
 import type { DeliveryOption } from "../../interfaces/deliveryOption";
 import ShoplyIcon from "../../assets/shoply-icon.png"
+import dayjs from "dayjs";
 
 export default function Cart({ carts, setCarts }: AddToCartProps) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
-  
+
   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
+
+
   const handleDeleteCart = (deliveryOption: DeliveryOption) => {
 
     setCarts(prev => {
@@ -87,9 +90,14 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
         alert('Please input a number')
       }
     }
-
-
   }
+
+  const dateNow = dayjs().format('dddd, MMMM DD')
+  const date2DaysAfter = dayjs().add(2, 'day').format('dddd, MMMM DD')
+  const date8DaysAfter = dayjs().add(8, 'day').format('dddd, MMMM DD')
+
+
+
 
   return (
     <div>
@@ -126,7 +134,10 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
               {carts.length > 0
                 ? carts.map(cart => {
                   return (
-                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleClickUpdateCart={handleClickUpdateCart} handleEnterUpdateCart={handleEnterUpdateCart} />
+                    <CartDeliveryOption cart={cart} key={cart.products[0].id} setTotalShipping={setTotalShipping} handleDeleteCart={handleDeleteCart} handleClickUpdateCart={handleClickUpdateCart} handleEnterUpdateCart={handleEnterUpdateCart}
+                    dateNow={dateNow}
+                    date2DaysAfter={date2DaysAfter}
+                    date8DaysAfter={date8DaysAfter} />
                   );
                 })
                 :
@@ -170,7 +181,10 @@ export default function Cart({ carts, setCarts }: AddToCartProps) {
                 </div>
               </div>
               <div>
-                <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
+                <Link to='/cart'>
+                  <button className="bg-yellow-300 cursor-pointer w-full text-[14px] py-3 rounded-[10px] active:bg-yellow-500 shadow-[0_0_4px_rgba(0,0,0,0.1)]">Place your order</button>
+                </Link>
+
               </div>
 
             </div>

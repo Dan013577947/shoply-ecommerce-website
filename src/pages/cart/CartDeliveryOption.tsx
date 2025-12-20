@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import type { CartType } from "../../interfaces/carts";
 import { fixedDecimalValue } from "../../utils/fixedDecimalValue";
 import { type DeliveryOption } from "../../interfaces/deliveryOption";
-import dayjs from "dayjs";
 
 interface DeliveryOptionCartProp {
   cart: CartType;
@@ -11,14 +10,14 @@ interface DeliveryOptionCartProp {
   handleDeleteCart: (deliveryOption: DeliveryOption) => void;
   handleClickUpdateCart: (deliveryOption: DeliveryOption, updateInput: number) => void;
   handleEnterUpdateCart: (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput:number, setUpdateStatus:React.Dispatch<React.SetStateAction<boolean>>) => void;
+  dateNow:string;
+  date2DaysAfter:string;
+  date8DaysAfter:string;
 }
 
-export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
+export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping, dateNow, date2DaysAfter, date8DaysAfter }: DeliveryOptionCartProp) {
 
-  const dateNow = dayjs().format('dddd, MMMM DD')
-  const date2DaysAfter = dayjs().add(2,'day').format('dddd, MMMM DD')
-  const date8daysAfter = dayjs().add(8,'day').format('dddd, MMMM DD')
-  const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: date8daysAfter, shippingPrice: "0.00" })
+  const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: date8DaysAfter, shippingPrice: "0.00" })
 
 
   const handleDeliveryOption = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,14 +96,14 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
             <div className="flex my-3">
               <input type="radio" name={`option-${cart.products[0].id}`} value={JSON.stringify({
                 id: cart.products[0].id,
-                date: date8daysAfter,
+                date: date8DaysAfter,
                 shippingPrice: "0.00"
               })} onChange={(event) => {
 
                 handleDeliveryOption(event)
               }} defaultChecked className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">{date8daysAfter}</div>
+                <div className="-my-1 text-red-700 font-[500]">{date8DaysAfter}</div>
                 <div className="-my-1 text-gray-400">Free Shipping</div>
               </div>
             </div>
