@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import type { CartType } from "../../interfaces/carts";
 import { fixedDecimalValue } from "../../utils/fixedDecimalValue";
 import { type DeliveryOption } from "../../interfaces/deliveryOption";
+import dayjs from "dayjs";
 
 interface DeliveryOptionCartProp {
   cart: CartType;
@@ -14,7 +15,10 @@ interface DeliveryOptionCartProp {
 
 export default function CartDeliveryOption({ cart, handleDeleteCart, handleClickUpdateCart, handleEnterUpdateCart, setTotalShipping }: DeliveryOptionCartProp) {
 
-  const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: "Monday, December 15", shippingPrice: "0.00" })
+  const dateNow = dayjs().format('dddd, MMMM DD')
+  const date2DaysAfter = dayjs().add(2,'day').format('dddd, MMMM DD')
+  const date8daysAfter = dayjs().add(8,'day').format('dddd, MMMM DD')
+  const [deliveryOption, setDeliveryOption] = useState<DeliveryOption>({ id: cart.products[0].id, date: date8daysAfter, shippingPrice: "0.00" })
 
 
   const handleDeliveryOption = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,6 +45,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
     })
   }, [deliveryOption])
 
+
   const [updateStatus, setUpdateStatus] = useState<boolean>(false)
   const [updateInput, setUpdateInput] = useState<number>(cart.totalQuantity)
 
@@ -51,7 +56,6 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
   const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUpdateInput(Number(event.target.value))
   }
-
 
   return (
     <div key={cart.products[0].id} className="bg-white mb-4 w-200 h-70 p-4 border border-gray-300 rounded-[5px] shadow-[0_0_2px_rgba(0,0,0,0.1)]">
@@ -93,41 +97,41 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
             <div className="flex my-3">
               <input type="radio" name={`option-${cart.products[0].id}`} value={JSON.stringify({
                 id: cart.products[0].id,
-                date: "Monday, December 15",
+                date: date8daysAfter,
                 shippingPrice: "0.00"
               })} onChange={(event) => {
 
                 handleDeliveryOption(event)
               }} defaultChecked className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">Monday, December 15</div>
+                <div className="-my-1 text-red-700 font-[500]">{date8daysAfter}</div>
                 <div className="-my-1 text-gray-400">Free Shipping</div>
               </div>
             </div>
             <div className="flex my-3">
               <input type="radio" name={`option-${cart.products[0].id}`} value={JSON.stringify({
                 id: cart.products[0].id,
-                date: "Tuesday, December 16",
+                date: date2DaysAfter,
                 shippingPrice: "4.99"
               })} onChange={(event) => {
                 handleDeliveryOption(event)
               }} className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">Tuesday, December 16</div>
-                <div className="-my-1 text-gray-400">4.99 Shipping</div>
+                <div className="-my-1 text-red-700 font-[500]">{date2DaysAfter}</div>
+                <div className="-my-1 text-gray-400">$4.99 Shipping</div>
               </div>
             </div>
             <div className="flex my-3">
               <input type="radio" name={`option-${cart.products[0].id}`} value={JSON.stringify({
                 id: cart.products[0].id,
-                date: "Friday, December 19",
+                date: dateNow,
                 shippingPrice: "9.99"
               })} onChange={(event) => {
                 handleDeliveryOption(event)
               }} className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">Friday, December 19</div>
-                <div className="-my-1 text-gray-400">9.99 Shipping</div>
+                <div className="-my-1 text-red-700 font-[500]">{dateNow}</div>
+                <div className="-my-1 text-gray-400">$9.99 Shipping</div>
               </div>
             </div>
 
