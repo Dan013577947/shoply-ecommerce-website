@@ -14,7 +14,7 @@ export interface HeaderProp {
 export default function Header({ carts, handleSearchResult, handleSearchButton, onKeyDownSearch }: HeaderProp) {
   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
   return (
-    <div className='fixed w-full h-30 bg-gradient-to-l from-orange-500 to-red-500 flex'>
+    <div className='z-100 fixed w-full h-30 bg-gradient-to-l from-orange-500 to-red-500 flex'>
       <div className='w-[20%]'></div>
       <div className='w-[60%] flex justify-between items-center'>
         <Link to='/' className='flex justify-between items-center w-[190px] cursor-pointer'>

@@ -113,16 +113,19 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
 
       const updated = [...prev,
       {
+        id:crypto.randomUUID(),
         orderDate: dateNow,
         orders: carts.map(cart => {
           return {
             id: cart.products[0].id,
             title: cart.products[0].title,
             deliveryDate: deliveryOptionList.find(item => item.id === cart.products[0].id)?.date,
-            quantity: cart.products[0].quantity
+            quantity: cart.products[0].quantity,
+            image:cart.products[0].thumbnail
           }
         }),
         total: Number(orderTotalAmount)
+        
       }]
 
       localStorage.setItem('orders', JSON.stringify(updated))
