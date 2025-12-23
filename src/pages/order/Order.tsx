@@ -13,7 +13,7 @@ interface OrderProp {
 }
 
 export default function Order({ orders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch }: OrderProp) {
-  // localStorage.removeItem('orders')
+  localStorage.removeItem('orders')
   return (
     <div>
       <Header
@@ -78,7 +78,6 @@ export default function Order({ orders, carts, setCarts, handleSearchResult, han
                               <button className="border border-gray-300 px-24 py-2 rounded-[6px] shadow-[0_0_2px_rgba(0,0,0,0.2)] cursor-pointer">Track Page</button>
                               <button className="px-10 py-2 rounded-[6px] bg-red-600 text-white shadow-[0_0_2px_rgba(0,0,0,0.2)] cursor-pointer">Cancel Order</button>
                             </div>
-
                           </div>
                         </div>
                       </div>
