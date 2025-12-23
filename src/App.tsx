@@ -75,6 +75,7 @@ function App() {
         <Route element={
           <Order
             orders={orders}
+            setOrders={setOrders}
             carts={carts}
             setCarts={setCarts}
             handleSearchResult={handleSearchResult}

@@ -4,6 +4,7 @@ export interface Order {
   title: string;
   deliveryDate: string | undefined;
   quantity: number;
+  price:number;
   image:string;
 }
 

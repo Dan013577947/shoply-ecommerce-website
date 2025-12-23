@@ -107,7 +107,6 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
 
   const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
 
-
   const handlePlaceYourOrder = () => {
     setOrders(prev => {
 
@@ -121,6 +120,7 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
             title: cart.products[0].title,
             deliveryDate: deliveryOptionList.find(item => item.id === cart.products[0].id)?.date,
             quantity: cart.products[0].quantity,
+            price:cart.products[0].price,
             image:cart.products[0].thumbnail
           }
         }),
