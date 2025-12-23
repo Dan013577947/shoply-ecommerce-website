@@ -13,7 +13,7 @@ interface OrderProp {
 }
 
 export default function Order({ orders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch }: OrderProp) {
-  localStorage.removeItem('orders')
+  // localStorage.removeItem('orders')
   return (
     <div>
       <Header
