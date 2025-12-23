@@ -106,7 +106,7 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
   const [deliveryOptionList, setDeliveryOptionList] = useState<DeliveryOption[]>([])
 
   const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
-  
+
   const handlePlaceYourOrder = () => {
     setOrders(prev => {
 
@@ -163,7 +163,7 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
         <div className='w-[20%]'></div>
         <div className='w-[60%]'>
           <div>
-            <p className="text-[23px] font-bold pt-[40px] pb-3">Review your Order</p>
+            <p className="text-[23px] font-bold pt-[40px] pb-3">Review your Cart</p>
           </div>
           <div className="flex justify-between">
             <div>
