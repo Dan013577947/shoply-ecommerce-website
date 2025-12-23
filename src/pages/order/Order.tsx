@@ -29,7 +29,8 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
         }
         : orders
     })
-    setOrders(updated)
+    const updatedRemovedEmptyOrders = updated.filter(orders=>orders.orders.length > 0)
+    setOrders(updatedRemovedEmptyOrders)
     localStorage.setItem('orders', JSON.stringify(updated))
   }
   return (

@@ -106,7 +106,7 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
   const [deliveryOptionList, setDeliveryOptionList] = useState<DeliveryOption[]>([])
 
   const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
-
+  
   const handlePlaceYourOrder = () => {
     setOrders(prev => {
 
