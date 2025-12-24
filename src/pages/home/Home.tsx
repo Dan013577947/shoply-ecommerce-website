@@ -12,9 +12,9 @@ interface HomeProp {
   handleSearchResult: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchButton: (event: React.MouseEvent) => void;
   onKeyDownSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-
+  handleAddToCart:(productId:number, addAmount:number)=>void;
 }
-export default function Home({ carts, setCarts, productsList, searchedProducts, handleSearchResult, handleSearchButton, onKeyDownSearch }: HomeProp) {
+export default function Home({ carts, setCarts, productsList, searchedProducts, handleSearchResult, handleSearchButton, onKeyDownSearch, handleAddToCart }: HomeProp) {
   return (
     <div>
       <title>Shoply</title>
@@ -26,10 +26,9 @@ export default function Home({ carts, setCarts, productsList, searchedProducts, 
         onKeyDownSearch={onKeyDownSearch}
       />
       <Products
-        carts={carts}
-        setCarts={setCarts}
         products={productsList}
         searchedProducts={searchedProducts}
+        handleAddToCart={handleAddToCart}
       />
       <Footer />
     </div>

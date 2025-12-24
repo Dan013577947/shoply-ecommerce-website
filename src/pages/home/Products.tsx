@@ -1,58 +1,14 @@
-import axios from "axios";
-import React from "react";
 import { type ProductType, type ProductsList } from "../../interfaces/products";
 import Product from "./Product";
-import { type CartType } from "../../interfaces/carts";
-import { fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
 
 interface ProductsProps {
-  carts: CartType[];
-  setCarts: React.Dispatch<React.SetStateAction<CartType[]>>;
   products: ProductsList | null;
   searchedProducts: ProductType[] | undefined;
+  handleAddToCart:(productId:number, addAmount:number)=>void;
 }
 
-function Products({ setCarts, products, searchedProducts }: ProductsProps) {
+function Products({ products, searchedProducts, handleAddToCart }: ProductsProps) {
 
-  const handleAddToCart = (productId: number, addAmount: number) => {
-    const addToCart = async () => {
-      const response = await axios.post('https://dummyjson.com/carts/add', {
-        userId: 1,
-        products: [
-          { id: productId, quantity: addAmount }
-        ]
-      })
-      setCarts(prev => {
-
-        const existing = prev.find(item => item.products[0].id === response.data.products[0].id)
-        if (existing) {
-          const updated = prev.map(item => item.products[0].id === response.data.products[0].id
-            ? {
-              ...item,
-              discountedTotal: fixedDecimalValueOfTwoAddedValues(item.discountedTotal, response.data.discountedTotal),
-              products: [{
-                ...item.products[0],
-                discountedPrice: fixedDecimalValueOfTwoAddedValues(item.products[0].discountedPrice, response.data.products[0].discountedPrice),
-                quantity: fixedDecimalValueOfTwoAddedValues(item.products[0].quantity, response.data.products[0].quantity),
-                total: fixedDecimalValueOfTwoAddedValues(item.products[0].total, response.data.products[0].total)
-              }],
-              total: fixedDecimalValueOfTwoAddedValues(item.total, response.data.total),
-              totalQuantity: fixedDecimalValueOfTwoAddedValues(item.totalQuantity, response.data.totalQuantity)
-            }
-            : item
-          )
-          localStorage.setItem('carts', JSON.stringify(updated))
-          return updated
-        }
-        else {
-          const updated = [...prev, response.data]
-          localStorage.setItem('carts', JSON.stringify(updated))
-          return updated
-        }
-      })
-    }
-    addToCart()
-  }
 
   return (
     <div className="pt-35 flex">

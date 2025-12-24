@@ -13,9 +13,10 @@ interface OrderProp {
   handleSearchResult: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleSearchButton: (event: React.MouseEvent) => void;
   onKeyDownSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleAddToCart: (productId: number, addAmount: number) => void;
 }
 
-export default function Order({ orders, setOrders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch }: OrderProp) {
+export default function Order({ orders, setOrders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, handleAddToCart }: OrderProp) {
   // localStorage.removeItem('orders')
 
   const handleCancelOrder = (ordersId: string, orderId: number) => {
@@ -35,7 +36,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
     localStorage.setItem('orders', JSON.stringify(updatedRemovedEmptyOrders))
   }
 
-  
+
   return (
     <div>
       <Header
@@ -91,7 +92,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
                                     <div>{order.quantity}</div>
                                   </div>
                                   <div>
-                                    <button className="bg-yellow-300 cursor-pointer px-5 py-2 rounded-[8px] shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={() => handleBuyItAgain(orders.id, order.id, order.quantity)}>Buy it again</button>
+                                    <button className="bg-yellow-300 cursor-pointer px-5 py-2 rounded-[8px] shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={() => handleAddToCart(order.id, order.quantity)}>Buy it again</button>
                                   </div>
                                 </div>
                               </div>

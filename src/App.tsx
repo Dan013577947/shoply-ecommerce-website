@@ -1,20 +1,21 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Cart from "./pages/cart/Cart";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { type CartType } from "./interfaces/carts";
 import ScrollToTop from "./ScrollToTop";
 import Order from "./pages/order/Order";
 import type { OrderType } from "./interfaces/orders";
 import type { ProductsList, ProductType } from "./interfaces/products";
 import axios from "axios";
+import { fixedDecimalValueOfTwoAddedValues } from "./utils/fixedDecimalValue";
+
 
 function App() {
   const [carts, setCarts] = useState<CartType[]>(() => {
     const savedItem = localStorage.getItem('carts')
     return savedItem ? JSON.parse(savedItem) : []
   })
-
   const [orders, setOrders] = useState<OrderType[]>(() => {
     const savedItem = localStorage.getItem('orders')
     return savedItem ? JSON.parse(savedItem) : []
@@ -52,6 +53,46 @@ function App() {
       setSearchedProducts(productsList?.products.filter(product => product.title.toLowerCase().includes(searchText.trim().toLowerCase())))
     }
   }
+
+  const handleAddToCart = (productId: number, addAmount: number) => {
+    const addToCart = async () => {
+      const response = await axios.post('https://dummyjson.com/carts/add', {
+        userId: 1,
+        products: [
+          { id: productId, quantity: addAmount }
+        ]
+      })
+      setCarts(prev => {
+
+        const existing = prev.find(item => item.products[0].id === response.data.products[0].id)
+        if (existing) {
+          const updated = prev.map(item => item.products[0].id === response.data.products[0].id
+            ? {
+              ...item,
+              discountedTotal: fixedDecimalValueOfTwoAddedValues(item.discountedTotal, response.data.discountedTotal),
+              products: [{
+                ...item.products[0],
+                discountedPrice: fixedDecimalValueOfTwoAddedValues(item.products[0].discountedPrice, response.data.products[0].discountedPrice),
+                quantity: fixedDecimalValueOfTwoAddedValues(item.products[0].quantity, response.data.products[0].quantity),
+                total: fixedDecimalValueOfTwoAddedValues(item.products[0].total, response.data.products[0].total)
+              }],
+              total: fixedDecimalValueOfTwoAddedValues(item.total, response.data.total),
+              totalQuantity: fixedDecimalValueOfTwoAddedValues(item.totalQuantity, response.data.totalQuantity)
+            }
+            : item
+          )
+          localStorage.setItem('carts', JSON.stringify(updated))
+          return updated
+        }
+        else {
+          const updated = [...prev, response.data]
+          localStorage.setItem('carts', JSON.stringify(updated))
+          return updated
+        }
+      })
+    }
+    addToCart()
+  }
   return (
     <>
       <ScrollToTop />
@@ -65,6 +106,7 @@ function App() {
             handleSearchResult={handleSearchResult}
             handleSearchButton={handleSearchButton}
             onKeyDownSearch={onKeyDownSearch}
+            handleAddToCart={handleAddToCart}
           />} path="/" />
         <Route element={
           <Cart
@@ -81,6 +123,7 @@ function App() {
             handleSearchResult={handleSearchResult}
             handleSearchButton={handleSearchButton}
             onKeyDownSearch={onKeyDownSearch}
+            handleAddToCart={handleAddToCart}
           />}
           path="/order" />
       </Routes>
