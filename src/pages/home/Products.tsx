@@ -14,12 +14,12 @@ interface ProductsProps {
 
 function Products({ setCarts, products, searchedProducts }: ProductsProps) {
 
-  const handleAddToCart = (product: ProductType, addAmount: number) => {
+  const handleAddToCart = (productId: number, addAmount: number) => {
     const addToCart = async () => {
       const response = await axios.post('https://dummyjson.com/carts/add', {
         userId: 1,
         products: [
-          { id: product.id, quantity: addAmount }
+          { id: productId, quantity: addAmount }
         ]
       })
       setCarts(prev => {

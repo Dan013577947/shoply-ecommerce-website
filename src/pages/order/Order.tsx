@@ -32,8 +32,10 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
     })
     const updatedRemovedEmptyOrders = updated.filter(orders => orders.orders.length > 0)
     setOrders(updatedRemovedEmptyOrders)
-    localStorage.setItem('orders', JSON.stringify(updated))
+    localStorage.setItem('orders', JSON.stringify(updatedRemovedEmptyOrders))
   }
+
+  
   return (
     <div>
       <Header
@@ -89,7 +91,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
                                     <div>{order.quantity}</div>
                                   </div>
                                   <div>
-                                    <button className="bg-yellow-300 cursor-pointer px-5 py-2 rounded-[8px] shadow-[0_0_4px_rgba(0,0,0,0.1)]">Buy it again</button>
+                                    <button className="bg-yellow-300 cursor-pointer px-5 py-2 rounded-[8px] shadow-[0_0_4px_rgba(0,0,0,0.1)]" onClick={() => handleBuyItAgain(orders.id, order.id, order.quantity)}>Buy it again</button>
                                   </div>
                                 </div>
                               </div>

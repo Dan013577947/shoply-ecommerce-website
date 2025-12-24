@@ -3,7 +3,7 @@ import { useState } from "react";
 
 interface ProductProps {
   product: ProductType;
-  handleAddToCart:(product:ProductType, addAmount:number) => void;
+  handleAddToCart:(productId:number, addAmount:number) => void;
 }
 
 export default function Product({ product, handleAddToCart }: ProductProps) {
@@ -62,7 +62,7 @@ export default function Product({ product, handleAddToCart }: ProductProps) {
         <button
           className="bg-orange-500 text-white cursor-pointer font-500 -m-2 py-1 hover:bg-red-500 active:bg-red-500 active:opacity-40"
           onClick={()=>{
-            handleAddToCart(product, addAmount)
+            handleAddToCart(product.id, addAmount)
             setAddAmount(1)
           }}
         >Add to Cart</button>
