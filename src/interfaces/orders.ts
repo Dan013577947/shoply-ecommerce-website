@@ -1,5 +1,5 @@
 
-export interface Order {
+export interface Order_ {
   id:number;
   title: string;
   deliveryDate: string | undefined;
@@ -11,7 +11,7 @@ export interface Order {
 export interface OrderType {
   id:string;
   orderDate: string;
-  orders:Order[];
+  orders:Order_[];
   total: number;
 }
 

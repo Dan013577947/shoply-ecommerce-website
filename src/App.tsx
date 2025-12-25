@@ -5,10 +5,12 @@ import React, { useEffect, useState } from "react";
 import { type CartType } from "./interfaces/carts";
 import ScrollToTop from "./ScrollToTop";
 import Order from "./pages/order/Order";
-import type { OrderType } from "./interfaces/orders";
+import type { Order_, OrderType } from "./interfaces/orders";
 import type { ProductsList, ProductType } from "./interfaces/products";
 import axios from "axios";
 import { fixedDecimalValueOfTwoAddedValues } from "./utils/fixedDecimalValue";
+import Track from "./pages/track/Track";
+import type { TrackingProp } from "./interfaces/track";
 
 
 function App() {
@@ -93,6 +95,22 @@ function App() {
     }
     addToCart()
   }
+
+  const [trackOrder, setTrackOrder] = useState<TrackingProp | null>(() => {
+    const savedItem = localStorage.getItem('track')
+    return savedItem ? JSON.parse(savedItem) : null
+  })
+  const handleTrackPage = (order: Order_, orderDate: string) => {
+    setTrackOrder(() => {
+      const trackOrder = {
+        order: order,
+        orderDate: orderDate
+      }
+      localStorage.setItem('track', JSON.stringify(trackOrder))
+      return trackOrder
+    })
+  }
+
   return (
     <>
       <ScrollToTop />
@@ -124,8 +142,22 @@ function App() {
             handleSearchButton={handleSearchButton}
             onKeyDownSearch={onKeyDownSearch}
             handleAddToCart={handleAddToCart}
+            handleTrackPage={handleTrackPage}
           />}
           path="/order" />
+        <Route
+          element={
+            <Track
+              carts={carts}
+              setCarts={setCarts}
+              handleSearchResult={handleSearchResult}
+              handleSearchButton={handleSearchButton}
+              onKeyDownSearch={onKeyDownSearch}
+              trackOrder={trackOrder}
+
+            />}
+          path="/track"
+        />
       </Routes>
     </>
 

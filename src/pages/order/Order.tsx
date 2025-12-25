@@ -2,7 +2,7 @@
 import { Link } from "react-router";
 import Header from "../../components/Header";
 import type { CartType } from "../../interfaces/carts";
-import type { OrderType } from "../../interfaces/orders";
+import type { Order_, OrderType } from "../../interfaces/orders";
 import { fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
 
 interface OrderProp {
@@ -14,9 +14,10 @@ interface OrderProp {
   handleSearchButton: (event: React.MouseEvent) => void;
   onKeyDownSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   handleAddToCart: (productId: number, addAmount: number) => void;
+  handleTrackPage:(order:Order_, orderDate:string)=>void;
 }
 
-export default function Order({ orders, setOrders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, handleAddToCart }: OrderProp) {
+export default function Order({ orders, setOrders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, handleAddToCart, handleTrackPage }: OrderProp) {
   // localStorage.removeItem('orders')
 
   const handleCancelOrder = (ordersId: string, orderId: number) => {
@@ -36,7 +37,6 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
     localStorage.setItem('orders', JSON.stringify(updatedRemovedEmptyOrders))
   }
 
-
   return (
     <div>
       <Header
@@ -46,9 +46,13 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
         handleSearchButton={handleSearchButton}
         onKeyDownSearch={onKeyDownSearch}
       />
+
       <div className="pt-35 flex">
         <div className='w-[20%]'></div>
         <div className='w-[60%]'>
+          <div>
+            <p className="text-[23px] font-bold pt-[40px] pb-3">Review your Orders</p>
+          </div>
           {orders.length > 0
             ? orders.map(orders => {
               return (
@@ -99,7 +103,8 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
                             </div>
                             <div className="w-[30%]">
                               <div className="flex flex-col items-center justify-evenly h-full">
-                                <button className="border border-gray-300 px-24 py-2 rounded-[6px] shadow-[0_0_2px_rgba(0,0,0,0.2)] cursor-pointer">Track Page</button>
+                                <Link to='/track'>
+                                  <button className="border border-gray-300 px-24 py-2 rounded-[6px] shadow-[0_0_2px_rgba(0,0,0,0.2)] cursor-pointer" onClick={()=>handleTrackPage(order, orders.orderDate)}>Track Page</button></Link>
                                 <button className="px-10 py-2 rounded-[6px] bg-red-600 text-white shadow-[0_0_2px_rgba(0,0,0,0.2)] cursor-pointer" onClick={() => handleCancelOrder(orders.id, order.id)}>Cancel Order</button>
                               </div>
                             </div>
@@ -114,9 +119,6 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
             })
             :
             <div className="w-200">
-              <div>
-                <p className="text-[23px] font-bold pt-[40px] pb-3">Review your Order</p>
-              </div>
               <div>Your orders is empty</div>
               <div>
                 <Link to='/'>
