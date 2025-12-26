@@ -1,5 +1,7 @@
+import type { Dayjs } from "dayjs";
+
 export interface DeliveryOption {
   id: number;
-  date: string;
+  date: Dayjs;
   shippingPrice: string;
 }

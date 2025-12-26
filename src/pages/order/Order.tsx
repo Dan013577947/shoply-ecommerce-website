@@ -4,6 +4,8 @@ import Header from "../../components/Header";
 import type { CartType } from "../../interfaces/carts";
 import type { Order_, OrderType } from "../../interfaces/orders";
 import { fixedDecimalValueOfTwoAddedValues } from "../../utils/fixedDecimalValue";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 interface OrderProp {
   orders: OrderType[];
@@ -14,7 +16,7 @@ interface OrderProp {
   handleSearchButton: (event: React.MouseEvent) => void;
   onKeyDownSearch: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   handleAddToCart: (productId: number, addAmount: number) => void;
-  handleTrackPage:(order:Order_, orderDate:string)=>void;
+  handleTrackPage:(order:Order_, orderDate:Dayjs)=>void;
 }
 
 export default function Order({ orders, setOrders, carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, handleAddToCart, handleTrackPage }: OrderProp) {
@@ -36,7 +38,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
     setOrders(updatedRemovedEmptyOrders)
     localStorage.setItem('orders', JSON.stringify(updatedRemovedEmptyOrders))
   }
-
+  
   return (
     <div>
       <Header
@@ -60,7 +62,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
                   <div className="bg-gray-300 flex px-7 py-5 rounded-t-[10px] absolute right-0 left-0 top-0">
                     <div className="w-[25%]">
                       <div className="font-[500]">Order Placed:</div>
-                      <div>{orders.orderDate}</div>
+                      <div>{dayjs(orders.orderDate).format('dddd, MMMM DD')}</div>
                     </div>
                     <div className="w-[45%]">
                       <div className="font-[500]">Total</div>
@@ -89,7 +91,7 @@ export default function Order({ orders, setOrders, carts, setCarts, handleSearch
                                   </div>
                                   <div className="flex">
                                     <div className="mr-1">Arriving on:</div>
-                                    <div>{order.deliveryDate}</div>
+                                    <div>{dayjs(order.deliveryDate).format('dddd, MMMM DD')}</div>
                                   </div>
                                   <div className="flex">
                                     <div className="mr-1">Quantity:</div>

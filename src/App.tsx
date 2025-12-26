@@ -11,6 +11,7 @@ import axios from "axios";
 import { fixedDecimalValueOfTwoAddedValues } from "./utils/fixedDecimalValue";
 import Track from "./pages/track/Track";
 import type { TrackingProp } from "./interfaces/track";
+import type { Dayjs } from "dayjs";
 
 
 function App() {
@@ -24,7 +25,6 @@ function App() {
   })
 
   const [productsList, setProductsList] = useState<ProductsList | null>(null);
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -37,13 +37,12 @@ function App() {
     }
     fetchProducts()
   }, [])
-
   const [searchText, setSearchText] = useState<string>('')
 
+  console.log(orders)
   const handleSearchResult = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
   }
-
   const [searchedProducts, setSearchedProducts] = useState<ProductType[] | undefined>(undefined)
 
   const handleSearchButton = () => {
@@ -100,7 +99,7 @@ function App() {
     const savedItem = localStorage.getItem('track')
     return savedItem ? JSON.parse(savedItem) : null
   })
-  const handleTrackPage = (order: Order_, orderDate: string) => {
+  const handleTrackPage = (order: Order_, orderDate: Dayjs) => {
     setTrackOrder(() => {
       const trackOrder = {
         order: order,

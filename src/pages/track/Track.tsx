@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import Header from "../../components/Header";
 import type { CartType } from "../../interfaces/carts";
 import type { TrackingProp } from "../../interfaces/track";
+import dayjs from "dayjs";
 
 interface TrackProp {
   carts: CartType[];
@@ -14,7 +15,7 @@ interface TrackProp {
 
 
 export default function Track({ carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, trackOrder }: TrackProp) {
-  
+
   return (
     <div>
       <Header
@@ -34,7 +35,7 @@ export default function Track({ carts, setCarts, handleSearchResult, handleSearc
               </Link>
             </div>
             <div>
-              <div className="text-[25px] font-[500]">Arriving on {trackOrder?.order.deliveryDate}</div>
+              <div className="text-[25px] font-[500]">Arriving on {dayjs(trackOrder?.order.deliveryDate).format('dddd, MMMM DD')}</div>
               <div>{trackOrder?.order.title}</div>
               <div>Quantity: {trackOrder?.order.quantity}</div>
               <div>

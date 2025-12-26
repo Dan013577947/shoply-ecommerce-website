@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import type { CartType } from "../../interfaces/carts";
 import { fixedDecimalValue } from "../../utils/fixedDecimalValue";
 import { type DeliveryOption } from "../../interfaces/deliveryOption";
+import type { Dayjs } from "dayjs";
+import dayjs from "dayjs";
+
 
 interface DeliveryOptionCartProp {
   cart: CartType;
@@ -10,9 +13,9 @@ interface DeliveryOptionCartProp {
   handleDeleteCart: (deliveryOption: DeliveryOption) => void;
   handleClickUpdateCart: (deliveryOption: DeliveryOption, updateInput: number) => void;
   handleEnterUpdateCart: (event: React.KeyboardEvent<HTMLInputElement>, deliveryOption: DeliveryOption, updateInput: number, setUpdateStatus: React.Dispatch<React.SetStateAction<boolean>>) => void;
-  dateNow: string;
-  date2DaysAfter: string;
-  date8DaysAfter: string;
+  dateNow: Dayjs;
+  date2DaysAfter: Dayjs;
+  date8DaysAfter: Dayjs;
   setDeliveryOptionList: React.Dispatch<React.SetStateAction<DeliveryOption[]>>
 }
 
@@ -80,7 +83,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
 
   return (
     <div key={cart.products[0].id} className="bg-white mb-4 w-200 h-70 p-4 border border-gray-300 rounded-[5px] shadow-[0_0_2px_rgba(0,0,0,0.1)]">
-      <div className="text-[18px] font-bold text-red-700">Delivery date: {deliveryOption.date}</div>
+      <div className="text-[18px] font-bold text-red-700">Delivery date: {dayjs(deliveryOption.date).format('dddd, MMMM DD')}</div>
       <div className="flex">
         <img src={cart.products[0].thumbnail} className="w-40" />
         <div className="flex flex-col py-3 w-[35%]">
@@ -125,7 +128,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
                 handleDeliveryOption(event)
               }} defaultChecked className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">{date8DaysAfter}</div>
+                <div className="-my-1 text-red-700 font-[500]">{date8DaysAfter.format('dddd, MMMM DD')}</div>
                 <div className="-my-1 text-gray-400">Free Shipping</div>
               </div>
             </div>
@@ -138,7 +141,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
                 handleDeliveryOption(event)
               }} className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">{date2DaysAfter}</div>
+                <div className="-my-1 text-red-700 font-[500]">{date2DaysAfter.format('dddd, MMMM DD')}</div>
                 <div className="-my-1 text-gray-400">$4.99 Shipping</div>
               </div>
             </div>
@@ -151,7 +154,7 @@ export default function CartDeliveryOption({ cart, handleDeleteCart, handleClick
                 handleDeliveryOption(event)
               }} className="mx-2 cursor-pointer" />
               <div>
-                <div className="-my-1 text-red-700 font-[500]">{dateNow}</div>
+                <div className="-my-1 text-red-700 font-[500]">{dateNow.format('dddd, MMMM DD')}</div>
                 <div className="-my-1 text-gray-400">$9.99 Shipping</div>
               </div>
             </div>

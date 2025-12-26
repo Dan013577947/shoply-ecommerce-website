@@ -18,6 +18,7 @@ interface CartProp {
 export default function Cart({ carts, setCarts, setOrders }: CartProp) {
   const [totalShipping, setTotalShipping] = useState<DeliveryOption[]>([])
   const totalShippingAmount = totalShipping.reduce((sum, item) => fixedDecimalValueOfTwoAddedValues(sum, JSON.parse(item.shippingPrice)), 0)
+  console.log(carts)
 
   const totalAddToCartAmount = carts.reduce((sum, item) => sum + item.totalQuantity, 0) || 0
 
@@ -99,13 +100,15 @@ export default function Cart({ carts, setCarts, setOrders }: CartProp) {
     }
   }
 
-  const dateNow = dayjs().format('dddd, MMMM DD')
-  const date2DaysAfter = dayjs().add(2, 'day').format('dddd, MMMM DD')
-  const date8DaysAfter = dayjs().add(8, 'day').format('dddd, MMMM DD')
+  const dateNow = dayjs()
+  const date2DaysAfter = dayjs().add(2, 'day')
+  const date8DaysAfter = dayjs().add(8, 'day')
 
   const [deliveryOptionList, setDeliveryOptionList] = useState<DeliveryOption[]>([])
 
   const orderTotalAmount = fixedDecimalValue(fixedDecimalValueOfTwoAddedValues(fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount) / 10, fixedDecimalValueOfTwoAddedValues(cartOverallTotal(carts), totalShippingAmount)))
+
+  
 
   const handlePlaceYourOrder = () => {
     setOrders(prev => {

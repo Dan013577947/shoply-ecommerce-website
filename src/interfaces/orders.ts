@@ -1,8 +1,9 @@
+import type { Dayjs } from "dayjs";
 
 export interface Order_ {
   id:number;
   title: string;
-  deliveryDate: string | undefined;
+  deliveryDate: Dayjs | undefined;
   quantity: number;
   price:number;
   image:string;
@@ -10,7 +11,7 @@ export interface Order_ {
 
 export interface OrderType {
   id:string;
-  orderDate: string;
+  orderDate: Dayjs;
   orders:Order_[];
   total: number;
 }
