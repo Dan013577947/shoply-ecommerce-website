@@ -39,7 +39,6 @@ function App() {
   }, [])
   const [searchText, setSearchText] = useState<string>('')
 
-  console.log(orders)
   const handleSearchResult = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value)
   }

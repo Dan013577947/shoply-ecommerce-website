@@ -15,6 +15,26 @@ interface TrackProp {
 
 
 export default function Track({ carts, setCarts, handleSearchResult, handleSearchButton, onKeyDownSearch, trackOrder }: TrackProp) {
+  const today = dayjs()
+  const startDate = trackOrder?.orderDate
+    ? dayjs(trackOrder?.orderDate)
+    : null
+  const deliveryDate = trackOrder?.order.deliveryDate
+    ? dayjs(trackOrder?.order.deliveryDate)
+    : null
+
+  const totalDays = deliveryDate && startDate
+    ? deliveryDate?.diff(startDate, 'day')
+    : 1
+    // console.log(totalDays)
+
+  const deliveryProgress = today && startDate
+    ? today?.diff(startDate, 'day')
+    : 0
+
+  const deliveryProgressPercent = Math.round(Math.abs(Math.max(Math.min((deliveryProgress / totalDays) * 100, 100), 0)))
+
+  console.log(deliveryProgressPercent)
 
   return (
     <div>
@@ -49,7 +69,7 @@ export default function Track({ carts, setCarts, handleSearchResult, handleSearc
                 <div>Delivered</div>
               </div>
               <div className="border border-gray-700 rounded-[20px] h-8">
-                <div className="w-[20%] h-full bg-red-200 rounded-[20px]">
+                <div className={`h-full bg-yellow-400 rounded-[20px]`} style={{width:`${deliveryProgressPercent}%`}}>
                 </div>
               </div>
             </div>
